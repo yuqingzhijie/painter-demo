@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import GlCanvas from '../components/GlCanvas.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <GlCanvas />
   </main>
 </template>
