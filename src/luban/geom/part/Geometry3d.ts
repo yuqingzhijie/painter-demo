@@ -1,7 +1,5 @@
-import Context from '@/luban/canvas/Context'
-import type Device from '@/luban/canvas/Device'
-import type Container from '@/luban/geom/Container'
-import Geometry from '@/luban/geom/Geometry'
+import type { Container, Device } from '@painter/gl-canvas'
+import { Context, Geometry } from '@painter/gl-canvas'
 
 export default abstract class Geometry3d extends Geometry {
   constructor(container: Container, id: number) {

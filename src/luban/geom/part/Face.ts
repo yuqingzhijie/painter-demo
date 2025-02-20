@@ -1,13 +1,8 @@
-import FaceBuffer from '@/luban/canvas/buffer/FaceBuffer'
-import { FaceBufferType } from '@/luban/canvas/buffer/FaceBufferType'
-import TextureBuffer from '@/luban/canvas/buffer/TextureBuffer'
-import Color from '@/luban/canvas/Color'
-import Context from '@/luban/canvas/Context'
-import type Device from '@/luban/canvas/Device'
-import type Container from '@/luban/geom/Container'
 import Edge from '@/luban/geom/part/Edge'
 import Geometry3d from '@/luban/geom/part/Geometry3d'
 import Shape from '@/luban/geom/part/Shape'
+import type { Container, Device } from '@painter/gl-canvas'
+import { Color, Context, FaceBuffer, FaceBufferType, TextureBuffer } from '@painter/gl-canvas'
 
 export default class Face extends Geometry3d {
   constructor(

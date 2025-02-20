@@ -1,11 +1,8 @@
-import Context from '@/luban/canvas/Context'
-import type Device from '@/luban/canvas/Device'
-import type Container from '@/luban/geom/Container'
-import Geometry from '@/luban/geom/Geometry'
 import Plane from '@/luban/geom/part/Plane'
 import Point from '@/luban/geom/part/Point'
 import Shape from '@/luban/geom/part/Shape'
-import Vertex from '@/luban/geom/part/Vertex'
+import type { Container, Device } from '@painter/gl-canvas'
+import { Context, Geometry, Vertex } from '@painter/gl-canvas'
 // import Sketch from '@/luban/geom/sketch/Sketch';
 
 export default class Part implements Container {

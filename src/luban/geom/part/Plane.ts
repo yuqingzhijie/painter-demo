@@ -1,13 +1,14 @@
-import FaceBuffer from '@/luban/canvas/buffer/FaceBuffer'
-import LineBuffer from '@/luban/canvas/buffer/LineBuffer'
-import { LineBufferType } from '@/luban/canvas/buffer/LineBufferType'
-import TextureBuffer from '@/luban/canvas/buffer/TextureBuffer'
-import Color from '@/luban/canvas/Color'
-import Context from '@/luban/canvas/Context'
-import type Device from '@/luban/canvas/Device'
-import type Container from '@/luban/geom/Container'
 import Geometry3d from '@/luban/geom/part/Geometry3d'
-import Matrix from '@/luban/math/Matrix'
+import type { Container, Device } from '@painter/gl-canvas'
+import {
+  Color,
+  Context,
+  FaceBuffer,
+  LineBuffer,
+  LineBufferType,
+  Matrix,
+  TextureBuffer,
+} from '@painter/gl-canvas'
 
 export default class Plane extends Geometry3d {
   constructor(container: Container, id: number, text: string, matrix: Matrix) {

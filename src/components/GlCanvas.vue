@@ -9,21 +9,17 @@
  * 鼠标控制
  */
 
-import Canvas from '@/luban/canvas/Canvas'
-import Color from '@/luban/canvas/Color'
-import Context from '@/luban/canvas/Context'
 import Edge from '@/luban/geom/part/Edge'
 import Face from '@/luban/geom/part/Face'
 import Part from '@/luban/geom/part/Part'
 import Plane from '@/luban/geom/part/Plane'
 import Point from '@/luban/geom/part/Point'
 import Shape from '@/luban/geom/part/Shape'
-import Vertex from '@/luban/geom/part/Vertex'
 import PickEventHandler from '@/luban/geom/pick/PickEventHandler'
-import Matrix from '@/luban/math/Matrix'
-import Vector from '@/luban/math/Vector'
+
 import { useCanvasStore } from '@/stores/canvas'
 import { throttle } from '@/utils'
+import { Canvas, Color, Context, Matrix, Vector, Vertex } from '@painter/gl-canvas'
 import { onMounted, ref, unref, type Ref } from 'vue'
 
 const initDatumPlanes = (part: Part): Plane[] => {

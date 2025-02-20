@@ -1,14 +1,15 @@
-import DashedLineBuffer from '@/luban/canvas/buffer/DashedLineBuffer'
-import LineBuffer from '@/luban/canvas/buffer/LineBuffer'
-import { LineBufferType } from '@/luban/canvas/buffer/LineBufferType'
-import Color from '@/luban/canvas/Color'
-import Context from '@/luban/canvas/Context'
-import type Device from '@/luban/canvas/Device'
-import type Container from '@/luban/geom/Container'
 import Face from '@/luban/geom/part/Face'
 import Geometry3d from '@/luban/geom/part/Geometry3d'
 import Shape from '@/luban/geom/part/Shape'
-import Vector from '@/luban/math/Vector'
+import type { Container, Device } from '@painter/gl-canvas'
+import {
+  Color,
+  Context,
+  DashedLineBuffer,
+  LineBuffer,
+  LineBufferType,
+  Vector,
+} from '@painter/gl-canvas'
 
 // [totalLength  dashLength] pixels
 const defaultDashOption = [20, 5]
