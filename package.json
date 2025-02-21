@@ -13,10 +13,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "naive-ui": "^2.41.0",
     "pinia": "^3.0.1",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0",
-    "@painter/gl-canvas": "./../gl-painter/packages/gl-canvas"
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",

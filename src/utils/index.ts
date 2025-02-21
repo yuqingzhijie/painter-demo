@@ -1,15 +1,23 @@
 export function throttle<T extends (...args: any) => any>(fn: T, timeout: number) {
   let block = false
+  let timer = NaN as unknown
 
-  return function (this: any, ...args: unknown[]) {
-    if (block) {
-      return
-    }
+  const afterExecuted = (): void => {
     block = true
-    setTimeout(() => {
+    setTimeout(() => (block = false), timeout)
+  }
+
+  return function (this: unknown, ...args: unknown[]) {
+    clearTimeout(timer as number)
+    if (block === false) {
       fn.apply(this, args)
-      block = false
-    }, timeout)
+      afterExecuted()
+    } else {
+      timer = setTimeout(() => {
+        fn.apply(this, args)
+        afterExecuted()
+      }, timeout)
+    }
   }
 }
 
