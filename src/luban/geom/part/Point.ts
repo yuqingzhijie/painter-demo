@@ -18,7 +18,11 @@ export default class Point extends Geometry3d {
 
   draw(device: Device, context: Context): void {
     this.createBuffer(device)
-    device.drawPoint(context, this.buffer as PointBuffer, this.color)
+    device.drawPoint(
+      context,
+      this.buffer as PointBuffer,
+      this.picked ? Color.PICKED_POINT_COLOR : this.color,
+    )
   }
 
   pick(device: Device, context: Context): void {

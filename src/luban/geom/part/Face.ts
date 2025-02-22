@@ -51,14 +51,10 @@ export default class Face extends Geometry3d {
     }
   }
 
-  draw(device: Device, context: Context): void {
+  draw(device: Device, context: Context, color?: Color): void {
     this.createBuffer(device)
-    device.drawFace(
-      context,
-      this.faceBuffer as FaceBuffer,
-      this.picked ? Color.PICKED_FACE_COLOR : this.color,
-      this.textureBuffer,
-    )
+    color = this.picked ? Color.PICKED_FACE_COLOR : color ? color : this.color
+    device.drawFace(context, this.faceBuffer as FaceBuffer, color, this.textureBuffer)
   }
 
   pick(device: Device, context: Context): void {

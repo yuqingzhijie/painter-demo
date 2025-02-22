@@ -13,9 +13,9 @@ import Edge from '@/luban/geom/part/Edge'
 import Face from '@/luban/geom/part/Face'
 import Part from '@/luban/geom/part/Part'
 import Plane from '@/luban/geom/part/Plane'
-import Point from '@/luban/geom/part/Point'
 import Shape from '@/luban/geom/part/Shape'
 import PickEventHandler from '@/luban/geom/pick/PickEventHandler'
+import { createCuboid } from '@/luban/math'
 
 import { useCanvasStore } from '@/stores/canvas'
 import { throttle } from '@/utils'
@@ -30,137 +30,23 @@ const initDatumPlanes = (part: Part): Plane[] => {
   ]
 }
 
-const initCube = (part: Part): Shape => {
-  const v = [
-    [-100, -100, 100],
-    [100, -100, 100],
-    [100, 100, 100],
-    [-100, 100, 100],
-    [-100, -100, -100],
-    [100, -100, -100],
-    [100, 100, -100],
-    [-100, 100, -100],
-  ] as number[][]
-  const shape = new Shape(part, 0)
-  shape.points.push(new Point(part, 1, [0, 0, 0], Color.POINT_COLOR))
-  shape.faces.set(
-    2,
-    new Face(
-      part,
-      2,
-      shape,
-      {
-        vertexes: [...v[0], ...v[1], ...v[2], ...v[3]],
-        normals: [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1],
-        indexes: [0, 1, 2, 0, 2, 3],
-      },
-      Color.FACE_COLOR,
-    ),
-  ) //front
-  shape.faces.set(
-    3,
-    new Face(
-      part,
-      3,
-      shape,
-      {
-        vertexes: v[4].concat(v[5]).concat(v[7]).concat(v[6]),
-        normals: [0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1],
-      },
-      Color.FACE_COLOR,
-    ),
-  ) //back
-  shape.faces.set(
-    4,
-    new Face(
-      part,
-      4,
-      shape,
-      {
-        vertexes: v[0].concat(v[3]).concat(v[4]).concat(v[7]),
-        normals: [-1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0, 0],
-      },
-      Color.FACE_COLOR,
-    ),
-  ) //left
-  shape.faces.set(
-    5,
-    new Face(
-      part,
-      5,
-      shape,
-      {
-        vertexes: v[1].concat(v[2]).concat(v[5]).concat(v[6]),
-        normals: [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0],
-      },
-      Color.FACE_COLOR,
-    ),
-  ) //right
-  shape.faces.set(
-    6,
-    new Face(
-      part,
-      6,
-      shape,
-      {
-        vertexes: v[2].concat(v[3]).concat(v[6]).concat(v[7]),
-        normals: [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
-      },
-      Color.FACE_COLOR,
-    ),
-  ) //top
-  shape.faces.set(
-    7,
-    new Face(
-      part,
-      7,
-      shape,
-      {
-        vertexes: v[1].concat(v[0]).concat(v[5]).concat(v[4]),
-        normals: [0, -1, 0, 0, -1, 0, 0, -1, 0, 0, -1, 0],
-      },
-      Color.FACE_COLOR,
-    ),
-  ) //bottom
-  shape.edges.set(8, new Edge(part, 8, shape, v[0].concat(v[1]), Color.EDGE_COLOR))
-  shape.edges.set(9, new Edge(part, 9, shape, v[1].concat(v[2]), Color.EDGE_COLOR))
-  shape.edges.set(10, new Edge(part, 10, shape, v[2].concat(v[3]), Color.EDGE_COLOR))
-  shape.edges.set(11, new Edge(part, 11, shape, v[3].concat(v[0]), Color.EDGE_COLOR))
-  shape.edges.set(12, new Edge(part, 12, shape, v[4].concat(v[5]), Color.EDGE_COLOR))
-  shape.edges.set(13, new Edge(part, 13, shape, v[5].concat(v[6]), Color.EDGE_COLOR))
-  shape.edges.set(14, new Edge(part, 14, shape, v[6].concat(v[7]), Color.EDGE_COLOR))
-  shape.edges.set(15, new Edge(part, 15, shape, v[7].concat(v[4]), Color.EDGE_COLOR))
-  shape.edges.set(16, new Edge(part, 16, shape, v[0].concat(v[4]), Color.EDGE_COLOR))
-  shape.edges.set(17, new Edge(part, 17, shape, v[1].concat(v[5]), Color.EDGE_COLOR))
-  shape.edges.set(18, new Edge(part, 18, shape, v[2].concat(v[6]), Color.EDGE_COLOR))
-  shape.edges.set(19, new Edge(part, 19, shape, v[3].concat(v[7]), Color.EDGE_COLOR))
-
-  shape.faces.get(0)?.borders.push(shape.edges.get(0) as Edge)
-  shape.faces.get(0)?.borders.push(shape.edges.get(1) as Edge)
-  shape.faces.get(0)?.borders.push(shape.edges.get(2) as Edge)
-  shape.faces.get(0)?.borders.push(shape.edges.get(3) as Edge)
-  shape.faces.get(1)?.borders.push(shape.edges.get(4) as Edge)
-  shape.faces.get(1)?.borders.push(shape.edges.get(5) as Edge)
-  shape.faces.get(1)?.borders.push(shape.edges.get(6) as Edge)
-  shape.faces.get(1)?.borders.push(shape.edges.get(7) as Edge)
-  shape.faces.get(2)?.borders.push(shape.edges.get(3) as Edge)
-  shape.faces.get(2)?.borders.push(shape.edges.get(7) as Edge)
-  shape.faces.get(2)?.borders.push(shape.edges.get(8) as Edge)
-  shape.faces.get(2)?.borders.push(shape.edges.get(11) as Edge)
-  shape.faces.get(3)?.borders.push(shape.edges.get(1) as Edge)
-  shape.faces.get(3)?.borders.push(shape.edges.get(5) as Edge)
-  shape.faces.get(3)?.borders.push(shape.edges.get(9) as Edge)
-  shape.faces.get(3)?.borders.push(shape.edges.get(10) as Edge)
-  shape.faces.get(4)?.borders.push(shape.edges.get(2) as Edge)
-  shape.faces.get(4)?.borders.push(shape.edges.get(6) as Edge)
-  shape.faces.get(4)?.borders.push(shape.edges.get(10) as Edge)
-  shape.faces.get(4)?.borders.push(shape.edges.get(11) as Edge)
-  shape.faces.get(5)?.borders.push(shape.edges.get(0) as Edge)
-  shape.faces.get(5)?.borders.push(shape.edges.get(4) as Edge)
-  shape.faces.get(5)?.borders.push(shape.edges.get(8) as Edge)
-  shape.faces.get(5)?.borders.push(shape.edges.get(9) as Edge)
-
-  shape.barycenter = new Vertex(0, 0, 0)
+const addCuboid = (
+  part: Part,
+  id: number,
+  origin: Vertex,
+  length: number,
+  width: number,
+  height: number,
+): Shape => {
+  const shape = new Shape(part, id)
+  const cuboid = createCuboid(origin, length, width, height)
+  cuboid.edges.forEach((edge) => {
+    shape.edges.set(id, new Edge(part, id++, shape, edge.vertexes, Color.EDGE_COLOR))
+  })
+  cuboid.faces.forEach((face) => {
+    shape.faces.set(id, new Face(part, id++, shape, face, Color.FACE_COLOR))
+  })
+  shape.barycenter = origin
   return shape
 }
 
@@ -230,7 +116,9 @@ onMounted(function init() {
   const canvasDom = unref(canvasRef)
   if (canvasDom instanceof HTMLCanvasElement) {
     const part = new Part()
-    part.addShape(initCube(part))
+    const id = 2
+    part.addShape(addCuboid(part, id, new Vertex(0, 0, 0), 100, 40, 60))
+    part.addShape(addCuboid(part, id + 18, new Vertex(60, 0, 80), 100, 40, 40))
     const planes = initDatumPlanes(part)
     planes.forEach((plane) => part.addPlane(plane))
 

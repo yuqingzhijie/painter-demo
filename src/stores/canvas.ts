@@ -1,3 +1,4 @@
+import { RenderModeEnum } from '@/config/luban'
 import type { Canvas } from '@painter/gl-canvas'
 import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
@@ -8,11 +9,13 @@ interface State {
    * 初始化失败为undefine
    */
   canvas: Canvas | null | undefined
+  renderMode: RenderModeEnum
 }
 
 export const useCanvasStore = defineStore('canvas', {
   state: (): State => ({
     canvas: null,
+    renderMode: RenderModeEnum.Shaded,
   }),
   getters: {
     rawCanvas(): State['canvas'] {

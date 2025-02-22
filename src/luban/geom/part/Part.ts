@@ -1,14 +1,45 @@
+import { RenderModeEnum } from '@/config/luban'
+import type Edge from '@/luban/geom/part/Edge'
+import type Face from '@/luban/geom/part/Face'
 import Plane from '@/luban/geom/part/Plane'
 import Point from '@/luban/geom/part/Point'
 import Shape from '@/luban/geom/part/Shape'
+import { useCanvasStore } from '@/stores/canvas'
 import type { Container, Device } from '@painter/gl-canvas'
 import { Context, Geometry, Vertex } from '@painter/gl-canvas'
 // import Sketch from '@/luban/geom/sketch/Sketch';
 
 export default class Part implements Container {
   draw(device: Device, context: Context): void {
-    for (const shape of this.shapes) shape.draw(device, context)
-    // for (const sketch of this.sketches) sketch.draw(device, context);
+    const faces = this.shapes.reduce((res: Face[], cur: Shape) => {
+      return [...res, ...cur.faces.values()]
+    }, [])
+    const edges = this.shapes.reduce((res: Edge[], cur: Shape) => {
+      return [...res, ...cur.edges.values()]
+    }, [])
+    const renderMode = useCanvasStore().renderMode
+    switch (renderMode) {
+      case RenderModeEnum.Shaded:
+        faces.forEach((face) => {
+          face.draw(device, context)
+        })
+        edges.forEach((edge) => {
+          edge.draw(device, context)
+        })
+        break
+      case RenderModeEnum.ShadedWithoutEdges:
+        faces.forEach((face) => {
+          face.draw(device, context)
+        })
+        break
+      case RenderModeEnum.Wireframe:
+        // todo
+        break
+
+      default:
+        break
+    }
+    // for (const shape of this.shapes) shape.draw(device, context)
     for (const point of this.points) point.draw(device, context)
 
     device.depthMask(false)
@@ -20,7 +51,9 @@ export default class Part implements Container {
     for (const plane of this.planes) plane.pick(device, context)
     device.clearDepth()
     for (const shape of this.shapes) shape.pick(device, context)
-    // for (const sketch of this.sketches) sketch.pick(device, context);
+    device.disableDepth()
+    for (const point of this.points) point.pick(device, context)
+    device.enableDepth()
   }
 
   addShape(shape: Shape): void {
