@@ -1,5 +1,5 @@
 import Face from '@/luban/geom/part/Face'
-import Geometry3d from '@/luban/geom/part/Geometry3d'
+import Geometry3d, { type DrawOptions } from '@/luban/geom/part/Geometry3d'
 import Shape from '@/luban/geom/part/Shape'
 import type { Container, Device } from '@painter/gl-canvas'
 import {
@@ -91,13 +91,11 @@ export default class Edge extends Geometry3d {
     else this.createBuffer4DashedLine(device)
   }
 
-  draw(device: Device, context: Context): void {
+  draw(device: Device, context: Context, options?: DrawOptions): void {
     this.createBuffer(device)
-    device.drawLine(
-      context,
-      this.buffer as LineBuffer,
-      this.picked ? Color.PICKED_EDGE_COLOR : this.color,
-    )
+    let color = this.picked ? Color.PICKED_FACE_COLOR : options?.color || this.color
+    color = new Color(...color.rgb, options?.opacity || color.a)
+    device.drawLine(context, this.buffer as LineBuffer, color)
   }
 
   pick(device: Device, context: Context): void {

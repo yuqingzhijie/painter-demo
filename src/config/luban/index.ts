@@ -2,7 +2,7 @@ enum RenderModeEnum {
   Shaded,
   ShadedWithoutEdges,
   Unshaded,
-  ShadedWithHiddenEdges,
+  UnshadedWithHiddenEdges,
   Wireframe,
   Translucent,
 }

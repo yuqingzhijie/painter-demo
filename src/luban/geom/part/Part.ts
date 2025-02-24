@@ -6,11 +6,12 @@ import Point from '@/luban/geom/part/Point'
 import Shape from '@/luban/geom/part/Shape'
 import { useCanvasStore } from '@/stores/canvas'
 import type { Container, Device } from '@painter/gl-canvas'
-import { Context, Geometry, Vertex } from '@painter/gl-canvas'
+import { Color, Context, Geometry, Vertex } from '@painter/gl-canvas'
 // import Sketch from '@/luban/geom/sketch/Sketch';
 
 export default class Part implements Container {
   draw(device: Device, context: Context): void {
+    console.log('part draw')
     const faces = this.shapes.reduce((res: Face[], cur: Shape) => {
       return [...res, ...cur.faces.values()]
     }, [])
@@ -32,10 +33,48 @@ export default class Part implements Container {
           face.draw(device, context)
         })
         break
-      case RenderModeEnum.Wireframe:
-        // todo
+      case RenderModeEnum.Unshaded:
+        faces.forEach((face) => {
+          face.draw(device, context, { color: Color.WHITE })
+        })
+        edges.forEach((edge) => {
+          edge.draw(device, context)
+        })
         break
-
+      case RenderModeEnum.UnshadedWithHiddenEdges:
+        faces.forEach((face) => {
+          face.draw(device, context, { color: Color.WHITE })
+        })
+        device.disableDepth()
+        edges.forEach((edge) => {
+          edge.draw(device, context, { color: Color.LIGHT_GRAY })
+        })
+        device.enableDepth()
+        edges.forEach((edge) => {
+          edge.draw(device, context)
+        })
+        break
+      case RenderModeEnum.Wireframe:
+        edges.forEach((edge) => {
+          edge.draw(device, context, { color: Color.WIREFRAME_EDGE_COLOR })
+        })
+        break
+      case RenderModeEnum.Translucent:
+        device.depthMask(false)
+        device.cullFrontFace()
+        faces.forEach((face) => {
+          face.draw(device, context, { opacity: face.picked ? 0.4 : 0.1 })
+        })
+        device.cullBackFace()
+        faces.forEach((face) => {
+          face.draw(device, context, { opacity: face.picked ? 0.4 : 0.1 })
+        })
+        device.disableCullFace()
+        device.depthMask(true)
+        edges.forEach((edge) => {
+          edge.draw(device, context)
+        })
+        break
       default:
         break
     }

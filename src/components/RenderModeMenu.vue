@@ -1,6 +1,6 @@
 <template>
-  <n-dropdown trigger="hover" :options="options" @select="handleSelect">
-    <n-button>{{ renderMode }}</n-button>
+  <n-dropdown trigger="hover" :options="renderModeOptionList" @select="handleSelect">
+    <n-button>{{ currentRenderModeOption.label }}</n-button>
   </n-dropdown>
 </template>
 
@@ -10,14 +10,13 @@ import { useCanvasStore } from '@/stores/canvas'
 import { NButton, NDropdown, type DropdownOption } from 'naive-ui'
 import { ref } from 'vue'
 
-// type Option = {
-//   label: string
-//   key: RenderModeEnum
-//   disabled?: boolean
-// }
+type RenderModeOption = {
+  label: string
+  key: RenderModeEnum
+  disabled?: boolean
+}
 
-const canvasStore = useCanvasStore()
-const options = [
+const renderModeOptionList: RenderModeOption[] = [
   {
     label: '正常',
     key: RenderModeEnum.Shaded,
@@ -27,13 +26,12 @@ const options = [
     key: RenderModeEnum.ShadedWithoutEdges,
   },
   {
-    label: '带隐藏边',
-    key: RenderModeEnum.ShadedWithHiddenEdges,
+    label: '不带隐藏边',
+    key: RenderModeEnum.Unshaded,
   },
   {
-    label: '白色',
-    key: RenderModeEnum.Unshaded,
-    disabled: true,
+    label: '带隐藏边',
+    key: RenderModeEnum.UnshadedWithHiddenEdges,
   },
   {
     label: '线框',
@@ -45,10 +43,12 @@ const options = [
   },
 ]
 
-const renderMode = ref(options[0].label)
+const currentRenderModeOption = ref(renderModeOptionList[0])
+// todo 太卡了
 const handleSelect = (key: RenderModeEnum, option: DropdownOption) => {
-  renderMode.value = option.label as string
-  // todo 下面会导致卡住，明天换elem，后面有空再定位
-  canvasStore.renderMode = key
+  currentRenderModeOption.value = option as RenderModeOption
+  const canvasStore = useCanvasStore()
+  canvasStore.setRenderMode(key)
+  setTimeout(() => canvasStore.rawCanvas?.draw(), 0)
 }
 </script>

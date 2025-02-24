@@ -10,17 +10,26 @@ interface State {
    */
   canvas: Canvas | null | undefined
   renderMode: RenderModeEnum
+  testNumber: number
 }
 
 export const useCanvasStore = defineStore('canvas', {
   state: (): State => ({
     canvas: null,
     renderMode: RenderModeEnum.Shaded,
+    testNumber: 0,
   }),
   getters: {
     rawCanvas(): State['canvas'] {
       return toRaw(this.canvas as Canvas)
     },
   },
-  actions: {},
+  actions: {
+    setCanvas(canvas: Canvas) {
+      this.canvas = canvas
+    },
+    setRenderMode(renderMode: RenderModeEnum) {
+      this.renderMode = renderMode
+    },
+  },
 })

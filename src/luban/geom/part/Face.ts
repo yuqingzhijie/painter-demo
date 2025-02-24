@@ -1,5 +1,5 @@
 import Edge from '@/luban/geom/part/Edge'
-import Geometry3d from '@/luban/geom/part/Geometry3d'
+import Geometry3d, { type DrawOptions } from '@/luban/geom/part/Geometry3d'
 import Shape from '@/luban/geom/part/Shape'
 import type { Container, Device } from '@painter/gl-canvas'
 import { Color, Context, FaceBuffer, FaceBufferType, TextureBuffer } from '@painter/gl-canvas'
@@ -51,9 +51,10 @@ export default class Face extends Geometry3d {
     }
   }
 
-  draw(device: Device, context: Context, color?: Color): void {
+  draw(device: Device, context: Context, options?: DrawOptions): void {
     this.createBuffer(device)
-    color = this.picked ? Color.PICKED_FACE_COLOR : color ? color : this.color
+    let color = this.picked ? Color.PICKED_FACE_COLOR : options?.color || this.color
+    color = new Color(...color.rgb, options?.opacity || color.a)
     device.drawFace(context, this.faceBuffer as FaceBuffer, color, this.textureBuffer)
   }
 
