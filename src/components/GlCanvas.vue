@@ -15,8 +15,7 @@ import Part from '@/luban/geom/part/Part'
 import Plane from '@/luban/geom/part/Plane'
 import Shape from '@/luban/geom/part/Shape'
 import PickEventHandler from '@/luban/geom/pick/PickEventHandler'
-import { createCuboid } from '@/luban/math'
-import SphereGeometry from '@/luban/math/sphere'
+import { createCuboid, createCylinderFace, createSphere } from '@/luban/math'
 
 import { useCanvasStore } from '@/stores/canvas'
 import { throttle } from '@/utils'
@@ -52,23 +51,25 @@ const addCuboid = (
 }
 const addSphere = (part: Part, id: number, origin: Vertex, radius: number): Shape => {
   const shape = new Shape(part, id)
-  // const sphere = createSphere(origin, radius)
-  // shape.faces.set(id, new Face(part, id++, shape, sphere, Color.FACE_COLOR))
-  // shape.edges.set(id, new Edge(part, id++, shape, sphere.virtualEdge, Color.EDGE_COLOR))
-  // shape.barycenter = origin
-  const sphere = new SphereGeometry(origin, radius)
-  shape.faces.set(
-    id,
-    new Face(
-      part,
-      id++,
-      shape,
-      { vertexes: sphere.vertices, normals: sphere.normals, indexes: sphere.indices },
-      Color.FACE_COLOR,
-    ),
-  )
-  // shape.edges.set(id, new Edge(part, id++, shape, sphere.virtualEdge, Color.EDGE_COLOR))
+  const sphere = createSphere(origin, radius, {
+    widthSegmentRange: [8, 24],
+    heightSegmentRange: [4, 12],
+  })
+  shape.faces.set(id, new Face(part, id++, shape, sphere, Color.FACE_COLOR))
   shape.barycenter = origin
+  return shape
+}
+const addCylinderSide = (
+  part: Part,
+  id: number,
+  baseCenter: Vertex,
+  radius: number,
+  height: number,
+): Shape => {
+  const shape = new Shape(part, id)
+  const cylinderFace = createCylinderFace(baseCenter, radius, height)
+  shape.faces.set(id, new Face(part, id++, shape, cylinderFace, Color.FACE_COLOR))
+  shape.barycenter = baseCenter
   return shape
 }
 
@@ -138,10 +139,11 @@ onMounted(function init() {
   const canvasDom = unref(canvasRef)
   if (canvasDom instanceof HTMLCanvasElement) {
     const part = new Part()
-    const id = 2
+    let id = 2
     part.addShape(addCuboid(part, id, new Vertex(0, 0, 0), 100, 40, 60))
-    part.addShape(addCuboid(part, id + 18, new Vertex(60, 0, 80), 100, 40, 40))
-    part.addShape(addSphere(part, id + 18, new Vertex(-60, 0, 80), 20))
+    part.addShape(addCuboid(part, (id = id + 19), new Vertex(60, 0, 80), 100, 40, 40))
+    part.addShape(addSphere(part, (id = id + 19), new Vertex(-60, 0, 80), 20))
+    part.addShape(addCylinderSide(part, (id = id + 2), new Vertex(120, 0, -80), 20, 60))
     // const planes = initDatumPlanes(part)
     // planes.forEach((plane) => part.addPlane(plane))
 

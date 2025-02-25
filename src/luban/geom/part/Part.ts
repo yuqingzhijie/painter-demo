@@ -11,7 +11,6 @@ import { Color, Context, Geometry, Vertex } from '@painter/gl-canvas'
 
 export default class Part implements Container {
   draw(device: Device, context: Context): void {
-    console.log('part draw')
     const faces = this.shapes.reduce((res: Face[], cur: Shape) => {
       return [...res, ...cur.faces.values()]
     }, [])
@@ -63,11 +62,11 @@ export default class Part implements Container {
         device.depthMask(false)
         device.cullFrontFace()
         faces.forEach((face) => {
-          face.draw(device, context, { opacity: face.picked ? 0.4 : 0.1 })
+          face.draw(device, context, { opacity: face.picked ? 0.4 : 0.2 })
         })
         device.cullBackFace()
         faces.forEach((face) => {
-          face.draw(device, context, { opacity: face.picked ? 0.4 : 0.1 })
+          face.draw(device, context, { opacity: face.picked ? 0.4 : 0.2 })
         })
         device.disableCullFace()
         device.depthMask(true)

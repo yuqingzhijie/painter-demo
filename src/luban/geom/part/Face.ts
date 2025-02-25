@@ -39,7 +39,7 @@ export default class Face extends Geometry3d {
         },
         0,
         this.indexes ? this.indexes.length : this.vertexes.length / 3,
-        this.indexes ? FaceBufferType.Default : FaceBufferType.Strip,
+        this.indexes ? FaceBufferType.Default : FaceBufferType.Default,
       )
     }
     if (this.texture && this.textureBuffer === undefined) {
