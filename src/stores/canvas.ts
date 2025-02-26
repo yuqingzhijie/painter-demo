@@ -1,7 +1,8 @@
-import { RenderModeEnum } from '@/config/luban'
 import type { Canvas } from '@painter/gl-canvas'
 import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
+
+// !除了canvas，别放其他东西，取值必须用rawCanvas, 尽量少set
 
 interface State {
   /** Canvas实例
@@ -9,15 +10,11 @@ interface State {
    * 初始化失败为undefine
    */
   canvas: Canvas | null | undefined
-  renderMode: RenderModeEnum
-  testNumber: number
 }
 
 export const useCanvasStore = defineStore('canvas', {
   state: (): State => ({
     canvas: null,
-    renderMode: RenderModeEnum.Shaded,
-    testNumber: 0,
   }),
   getters: {
     rawCanvas(): State['canvas'] {
@@ -27,9 +24,6 @@ export const useCanvasStore = defineStore('canvas', {
   actions: {
     setCanvas(canvas: Canvas) {
       this.canvas = canvas
-    },
-    setRenderMode(renderMode: RenderModeEnum) {
-      this.renderMode = renderMode
     },
   },
 })

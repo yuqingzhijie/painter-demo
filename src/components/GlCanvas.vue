@@ -9,6 +9,7 @@
  * 鼠标控制
  */
 
+import { DEMO_PANEL_WIDTH, TOOL_BAR_HEIGHT } from '@/config/luban'
 import Edge from '@/luban/geom/part/Edge'
 import Face from '@/luban/geom/part/Face'
 import Part from '@/luban/geom/part/Part'
@@ -78,11 +79,11 @@ const initCanvas = (root: Part, dom: HTMLCanvasElement) => {
   canvas.root = root
   canvas.eventHandler.next = new PickEventHandler(canvas)
 
-  canvas.resize(window.innerWidth, window.innerHeight - 36)
+  canvas.resize(window.innerWidth - DEMO_PANEL_WIDTH, window.innerHeight - TOOL_BAR_HEIGHT)
   window.addEventListener(
     'resize',
     throttle(() => {
-      canvas.resize(window.innerWidth, window.innerHeight - 36)
+      canvas.resize(window.innerWidth - DEMO_PANEL_WIDTH, window.innerHeight - TOOL_BAR_HEIGHT)
     }, 150),
   )
 
@@ -144,8 +145,8 @@ onMounted(function init() {
     part.addShape(addCuboid(part, (id = id + 19), new Vertex(60, 0, 80), 100, 40, 40))
     part.addShape(addSphere(part, (id = id + 19), new Vertex(-60, 0, 80), 20))
     part.addShape(addCylinderSide(part, (id = id + 2), new Vertex(120, 0, -80), 20, 60))
-    // const planes = initDatumPlanes(part)
-    // planes.forEach((plane) => part.addPlane(plane))
+    const planes = initDatumPlanes(part)
+    planes.forEach((plane) => part.addPlane(plane))
 
     const canvas = initCanvas(part, canvasDom)
     const canvasStore = useCanvasStore()

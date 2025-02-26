@@ -4,10 +4,9 @@ import type Face from '@/luban/geom/part/Face'
 import Plane from '@/luban/geom/part/Plane'
 import Point from '@/luban/geom/part/Point'
 import Shape from '@/luban/geom/part/Shape'
-import { useCanvasStore } from '@/stores/canvas'
+import { useOptionsStore } from '@/stores/options'
 import type { Container, Device } from '@painter/gl-canvas'
 import { Color, Context, Geometry, Vertex } from '@painter/gl-canvas'
-// import Sketch from '@/luban/geom/sketch/Sketch';
 
 export default class Part implements Container {
   draw(device: Device, context: Context): void {
@@ -17,7 +16,7 @@ export default class Part implements Container {
     const edges = this.shapes.reduce((res: Edge[], cur: Shape) => {
       return [...res, ...cur.edges.values()]
     }, [])
-    const renderMode = useCanvasStore().renderMode
+    const renderMode = useOptionsStore().renderMode
     switch (renderMode) {
       case RenderModeEnum.Shaded:
         faces.forEach((face) => {

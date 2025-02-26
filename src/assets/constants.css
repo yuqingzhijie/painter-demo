@@ -1,0 +1,6 @@
+:root {
+  /* config TOOL_BAR_HEIGHT */
+  --painter-tool-bar-height: 40px;
+  /* config DEMO_PANEL_WIDTH */
+  --painter-demo-panel-width: 240px;
+}

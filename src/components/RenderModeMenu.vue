@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { RenderModeEnum } from '@/config/luban'
 import { useCanvasStore } from '@/stores/canvas'
+import { useOptionsStore } from '@/stores/options'
 import { NButton, NDropdown, type DropdownOption } from 'naive-ui'
 import { ref } from 'vue'
 
@@ -15,6 +16,9 @@ type RenderModeOption = {
   key: RenderModeEnum
   disabled?: boolean
 }
+
+const optionsStore = useOptionsStore()
+const canvasStore = useCanvasStore()
 
 const renderModeOptionList: RenderModeOption[] = [
   {
@@ -44,11 +48,11 @@ const renderModeOptionList: RenderModeOption[] = [
 ]
 
 const currentRenderModeOption = ref(renderModeOptionList[0])
-// todo 太卡了
 const handleSelect = (key: RenderModeEnum, option: DropdownOption) => {
   currentRenderModeOption.value = option as RenderModeOption
-  const canvasStore = useCanvasStore()
-  canvasStore.setRenderMode(key)
-  setTimeout(() => canvasStore.rawCanvas?.draw(), 0)
+  optionsStore.setRenderMode(key)
+  canvasStore.rawCanvas?.draw()
 }
 </script>
+
+<style></style>
