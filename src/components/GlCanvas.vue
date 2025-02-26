@@ -16,7 +16,7 @@ import Part from '@/luban/geom/part/Part'
 import Plane from '@/luban/geom/part/Plane'
 import Shape from '@/luban/geom/part/Shape'
 import PickEventHandler from '@/luban/geom/pick/PickEventHandler'
-import { createCuboid, createCylinderFace, createSphere } from '@/luban/math'
+import { createCuboid, createCylinderFace, createSphere, ModelingDirectionEnum } from '@/luban/math'
 
 import { useCanvasStore } from '@/stores/canvas'
 import { throttle } from '@/utils'
@@ -53,8 +53,7 @@ const addCuboid = (
 const addSphere = (part: Part, id: number, origin: Vertex, radius: number): Shape => {
   const shape = new Shape(part, id)
   const sphere = createSphere(origin, radius, {
-    widthSegmentRange: [8, 24],
-    heightSegmentRange: [4, 12],
+    widthSegmentRange: [24, 8],
   })
   shape.faces.set(id, new Face(part, id++, shape, sphere, Color.FACE_COLOR))
   shape.barycenter = origin
@@ -68,7 +67,10 @@ const addCylinderSide = (
   height: number,
 ): Shape => {
   const shape = new Shape(part, id)
-  const cylinderFace = createCylinderFace(baseCenter, radius, height)
+  const cylinderFace = createCylinderFace(baseCenter, radius, height, {
+    range: [24, 16],
+    direction: ModelingDirectionEnum.Z,
+  })
   shape.faces.set(id, new Face(part, id++, shape, cylinderFace, Color.FACE_COLOR))
   shape.barycenter = baseCenter
   return shape
