@@ -1,3 +1,4 @@
+import type Dice from '@/luban/geom/dice/Dice'
 import PartPickFilter from '@/luban/geom/part/PartPickFilter'
 import type { Container, EventHandler } from '@painter/gl-canvas'
 import { Canvas, DummyEventHandler, Geometry } from '@painter/gl-canvas'
@@ -19,15 +20,17 @@ export default class PickEventHandler extends DummyEventHandler {
   }
   getPicked(ev: MouseEvent): (Geometry | null)[] {
     const container = this.canvas.root as Container
+    const dice = (this.canvas.customContent as { dice: Dice }).dice as Dice
     if (this.isMoved(ev)) {
       // large move
       return []
     } else if (this.isSelfDownEv || (ev.type !== 'mouseup' && ev.buttons === 0)) {
       // click, small move, hover
       const d = 5
+      // console.log(this.canvas.getPicked(ev.offsetX - d, ev.offsetY - d, 2 * d + 1, 2 * d + 1), dice)
       return this.canvas
         .getPicked(ev.offsetX - d, ev.offsetY - d, 2 * d + 1, 2 * d + 1)
-        .map((x) => (x === -1 ? null : container.geometries[x]))
+        .map((x) => (x === -1 ? null : dice.diceFaces.get(x) || container.geometries[x]))
     } else {
       return []
     }

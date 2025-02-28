@@ -9,21 +9,21 @@ interface State {
    * 初始值为null
    * 初始化失败为undefine
    */
-  canvas: Canvas | null | undefined
+  _canvas: Canvas | null | undefined
 }
 
 export const useCanvasStore = defineStore('canvas', {
   state: (): State => ({
-    canvas: null,
+    _canvas: null,
   }),
   getters: {
-    rawCanvas(): State['canvas'] {
-      return toRaw(this.canvas as Canvas)
+    rawCanvas(): State['_canvas'] {
+      return toRaw(this._canvas as Canvas)
     },
   },
   actions: {
     setCanvas(canvas: Canvas) {
-      this.canvas = canvas
+      this._canvas = canvas
     },
   },
 })
