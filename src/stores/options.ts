@@ -12,7 +12,6 @@ export const useOptionsStore = defineStore('options', {
   getters: {},
   actions: {
     setRenderMode(renderMode: RenderModeEnum) {
-      console.log('set', new Date(), this)
       this.renderMode = renderMode
     },
   },

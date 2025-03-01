@@ -8,11 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    ElButton: typeof import('element-plus/es')['ElButton']
-    ElDropdown: typeof import('element-plus/es')['ElDropdown']
-    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
-    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
-    ElIcon: typeof import('element-plus/es')['ElIcon']
+    DemoPanel: typeof import('./src/components/DemoPanel.vue')['default']
     GlCanvas: typeof import('./src/components/GlCanvas.vue')['default']
     RenderModeMenu: typeof import('./src/components/RenderModeMenu.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

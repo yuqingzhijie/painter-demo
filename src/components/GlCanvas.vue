@@ -6,6 +6,7 @@
  */
 
 import { DEMO_PANEL_WIDTH, TOOL_BAR_HEIGHT } from '@/config/luban'
+import Dice from '@/luban/geom/dice/Dice'
 import Edge from '@/luban/geom/part/Edge'
 import Face from '@/luban/geom/part/Face'
 import Part from '@/luban/geom/part/Part'
@@ -16,7 +17,7 @@ import { createCuboid, createCylinderFace, createSphere, ModelingDirectionEnum }
 
 import { useCanvasStore } from '@/stores/canvas'
 import { throttle } from '@/utils'
-import { Canvas, Color, Context, Matrix, Vector, Vertex } from '@painter/gl-canvas'
+import { Canvas, Color, Matrix, Vector, Vertex } from '@painter/gl-canvas'
 import { onMounted, ref, unref, type Ref } from 'vue'
 
 const initDatumPlanes = (part: Part): Plane[] => {
@@ -73,11 +74,32 @@ const addCylinderSide = (
 }
 
 const initCanvas = (root: Part, dom: HTMLCanvasElement) => {
-  const canvas = new Canvas(dom)
+  const canvas = new Canvas(dom, { dice: new Dice() })
   canvas.root = root
   canvas.eventHandler.next = new PickEventHandler(canvas)
+  canvas.setCustomDraw(function (this: Canvas) {
+    this.device.beginDraw()
+    this.root?.draw(this.device, this.context)
+    this.device.clearDepth()
+    ;(this.customContent as { dice: Dice }).dice.draw(this.device, this.context)
+    this.device.endDraw()
+  })
+  canvas.setCustomPick(function (this: Canvas) {
+    this.device.beginPick()
+    this.root?.pick(this.device, this.context)
+    this.device.clearDepth()
+    ;(this.customContent as { dice: Dice }).dice.pick(this.device, this.context)
+    this.picked = this.device.getPicked(0, 0, this.device.width(), this.device.height())
+    this.device.endPick()
+  })
 
   canvas.resize(window.innerWidth - DEMO_PANEL_WIDTH, window.innerHeight - TOOL_BAR_HEIGHT)
+  canvas.context.viewMatrix = Matrix.IDENTITY.rotate(Vector.Y_AXIS, Math.PI / 8).rotate(
+    Vector.X_AXIS,
+    Math.PI / 8,
+  )
+  canvas.draw()
+  canvas.pick()
   window.addEventListener(
     'resize',
     throttle(() => {
@@ -88,50 +110,6 @@ const initCanvas = (root: Part, dom: HTMLCanvasElement) => {
   return canvas
 }
 
-function perspectAnimate(context: Context, canvas: Canvas): void {
-  const oldViewMatrix = context.viewMatrix
-  const angle = oldViewMatrix.getAngle()
-  const translation = oldViewMatrix.getTranslation()
-  const oldCameraSize = context.orthoUnits
-
-  const STEP_TOTAL = 50
-  let currentStep = STEP_TOTAL - 1
-  function step() {
-    const stepValue = currentStep / STEP_TOTAL
-    const translationMatrix = Matrix.IDENTITY.translate(
-      new Vector(
-        translation[0] * stepValue,
-        translation[1] * stepValue,
-        translation[2] * stepValue,
-      ),
-    )
-    const rotateMatrix = Matrix.IDENTITY.rotate(Vector.X_AXIS, angle[0] * stepValue)
-      .rotate(Vector.Y_AXIS, angle[1] * stepValue)
-      .rotate(Vector.Z_AXIS, angle[2] * stepValue)
-
-    context.viewMatrix = translationMatrix.multiply(rotateMatrix)
-    context.orthoUnits =
-      Context.INIT_ORTHO_UNIT - (Context.INIT_ORTHO_UNIT - oldCameraSize) * stepValue
-    canvas.draw()
-
-    currentStep--
-    if (currentStep >= 0) {
-      requestAnimationFrame(step)
-    }
-  }
-  step()
-}
-
-const enterSketch = (canvas: Canvas): void => {
-  // 1. auto select xy datum
-  // 2. change v&p matrix to make sure user see the sketch right
-  // 3. draw a rectangle in the sketch
-  // const part = canvas.root as Part;
-  // const xyPlane = Part.getPlanes()[2]; // todo
-  // part.addSketch(drawSketch(part, 20, xyPlane));
-  perspectAnimate(canvas.context, canvas)
-}
-
 const canvasRef = ref() as Ref<HTMLCanvasElement>
 
 onMounted(function init() {
@@ -139,8 +117,8 @@ onMounted(function init() {
   if (canvasDom instanceof HTMLCanvasElement) {
     const part = new Part()
     let id = 2
-    part.addShape(addCuboid(part, id, new Vertex(0, 0, 0), 100, 40, 60))
-    part.addShape(addCuboid(part, (id = id + 19), new Vertex(60, 0, 80), 100, 40, 40))
+    part.addShape(addCuboid(part, id, new Vertex(-60, 0, -80), 100, 40, 60))
+    part.addShape(addCuboid(part, (id = id + 19), new Vertex(120, 0, 80), 100, 40, 40))
     part.addShape(addSphere(part, (id = id + 19), new Vertex(-60, 0, 80), 20))
     part.addShape(addCylinderSide(part, (id = id + 2), new Vertex(120, 0, -80), 20, 60))
     const planes = initDatumPlanes(part)
@@ -149,9 +127,6 @@ onMounted(function init() {
     const canvas = initCanvas(part, canvasDom)
     const canvasStore = useCanvasStore()
     canvasStore.setCanvas(canvas)
-    setTimeout(() => {
-      enterSketch(canvas)
-    }, 5000)
   } else {
     throw new Error('failed to find canvas dom.')
   }

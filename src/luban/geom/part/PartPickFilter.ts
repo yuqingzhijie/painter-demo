@@ -1,3 +1,4 @@
+import DiceFace from '@/luban/geom/dice/DiceFace'
 import Edge from '@/luban/geom/part/Edge'
 import Face from '@/luban/geom/part/Face'
 import Plane from '@/luban/geom/part/Plane'
@@ -7,6 +8,7 @@ import { Geometry } from '@painter/gl-canvas'
 
 export default class PartPickFilter {
   filter(geometries: (Geometry | null)[]): Geometry | null {
+    for (const geometry of geometries) if (geometry instanceof DiceFace) return geometry
     for (const geometry of geometries) if (geometry instanceof Point) return geometry
     for (const geometry of geometries) if (geometry instanceof Edge) return geometry
     for (const geometry of geometries) if (geometry instanceof Face) return geometry

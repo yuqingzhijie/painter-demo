@@ -2,7 +2,7 @@
   <main id="home-view">
     <div class="tool-bar">tool bar</div>
     <div class="main">
-      <div class="demo-panel">demo list</div>
+      <DemoPanel class="demo-panel" />
       <div class="gl-canvas-wrap">
         <GlCanvas class="gl-canvas" />
         <div class="render-mode-menu-wrap">
@@ -14,6 +14,7 @@
 </template>
 
 <script setup lang="ts">
+import DemoPanel from '@/components/DemoPanel.vue'
 import GlCanvas from '@/components/GlCanvas.vue'
 import RenderModeMenu from '@/components/RenderModeMenu.vue'
 </script>
@@ -40,10 +41,7 @@ import RenderModeMenu from '@/components/RenderModeMenu.vue'
     display: flex;
 
     .demo-panel {
-      width: var(--painter-demo-panel-width);
-      box-sizing: border-box;
       border-right: 1px solid #666;
-      text-align: center;
     }
 
     .gl-canvas-wrap {
