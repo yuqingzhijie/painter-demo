@@ -13,6 +13,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@gl-painter/gl-canvas": "^0.0.1",
     "element-plus": "^2.9.5",
     "naive-ui": "^2.41.0",
     "pinia": "^3.0.1",

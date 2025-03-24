@@ -1,5 +1,5 @@
-import type { Color, Container, Device } from '@painter/gl-canvas'
-import { Context, Geometry } from '@painter/gl-canvas'
+import type { Color, Container, Device } from '@gl-painter/gl-canvas'
+import { Context, Geometry } from '@gl-painter/gl-canvas'
 
 export type DrawOptions = {
   color?: Color

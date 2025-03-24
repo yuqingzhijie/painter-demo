@@ -5,8 +5,8 @@ import Plane from '@/luban/geom/part/Plane'
 import Point from '@/luban/geom/part/Point'
 import Shape from '@/luban/geom/part/Shape'
 import { useOptionsStore } from '@/stores/options'
-import type { Container, Device } from '@painter/gl-canvas'
-import { Color, Context, Geometry, Vertex } from '@painter/gl-canvas'
+import type { Container, Device } from '@gl-painter/gl-canvas'
+import { Color, Context, Geometry, Vertex } from '@gl-painter/gl-canvas'
 
 export default class Part implements Container {
   draw(device: Device, context: Context): void {

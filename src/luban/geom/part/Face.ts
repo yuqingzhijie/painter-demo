@@ -1,8 +1,8 @@
 import Edge from '@/luban/geom/part/Edge'
 import Geometry3d, { type DrawOptions } from '@/luban/geom/part/Geometry3d'
 import Shape from '@/luban/geom/part/Shape'
-import type { Container, Device } from '@painter/gl-canvas'
-import { Color, Context, FaceBuffer, FaceBufferType, TextureBuffer } from '@painter/gl-canvas'
+import type { Container, Device } from '@gl-painter/gl-canvas'
+import { Color, Context, FaceBuffer, FaceBufferType, TextureBuffer } from '@gl-painter/gl-canvas'
 
 export default class Face extends Geometry3d {
   constructor(

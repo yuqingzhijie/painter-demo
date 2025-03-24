@@ -1,5 +1,5 @@
 import { useCanvasStore } from '@/stores/canvas'
-import { Context, Matrix, Vector, type Canvas } from '@painter/gl-canvas'
+import { Context, Matrix, Vector, type Canvas } from '@gl-painter/gl-canvas'
 
 type Quaternion = { w: number; x: number; y: number; z: number }
 function matrixToQuaternion(matrix: number[]): Quaternion {

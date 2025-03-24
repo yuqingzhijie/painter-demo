@@ -1,4 +1,4 @@
-import type { Canvas } from '@painter/gl-canvas'
+import type { Canvas } from '@gl-painter/gl-canvas'
 import { defineStore } from 'pinia'
 import { toRaw } from 'vue'
 

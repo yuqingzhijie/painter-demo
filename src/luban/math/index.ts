@@ -1,7 +1,7 @@
 type FaceData = { vertexes: number[]; normals: number[] }
 type EdgeData = { vertexes: number[] }
 
-import type { Vertex } from '@painter/gl-canvas'
+import type { Vertex } from '@gl-painter/gl-canvas'
 
 function createCuboid(
   origin: Vertex,

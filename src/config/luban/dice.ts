@@ -1,4 +1,4 @@
-import { Matrix, Vector } from '@painter/gl-canvas'
+import { Matrix, Vector } from '@gl-painter/gl-canvas'
 
 const DICE_CONFIG = {
   width: 20,

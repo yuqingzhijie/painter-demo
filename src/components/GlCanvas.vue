@@ -17,7 +17,7 @@ import { createCuboid, createCylinderFace, createSphere, ModelingDirectionEnum }
 
 import { useCanvasStore } from '@/stores/canvas'
 import { throttle } from '@/utils'
-import { Canvas, Color, Matrix, Vector, Vertex } from '@painter/gl-canvas'
+import { Canvas, Color, Matrix, Vector, Vertex } from '@gl-painter/gl-canvas'
 import { onMounted, ref, unref, type Ref } from 'vue'
 
 const initDatumPlanes = (part: Part): Plane[] => {

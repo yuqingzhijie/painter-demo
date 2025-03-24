@@ -1,5 +1,5 @@
 import Geometry3d from '@/luban/geom/part/Geometry3d'
-import type { Container, Device } from '@painter/gl-canvas'
+import type { Container, Device } from '@gl-painter/gl-canvas'
 import {
   Color,
   Context,
@@ -8,7 +8,7 @@ import {
   LineBufferType,
   Matrix,
   TextureBuffer,
-} from '@painter/gl-canvas'
+} from '@gl-painter/gl-canvas'
 
 export default class Plane extends Geometry3d {
   constructor(container: Container, id: number, text: string, matrix: Matrix) {

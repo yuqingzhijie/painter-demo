@@ -1,7 +1,7 @@
 import type Dice from '@/luban/geom/dice/Dice'
 import PartPickFilter from '@/luban/geom/part/PartPickFilter'
-import type { Container, EventHandler } from '@painter/gl-canvas'
-import { Canvas, DummyEventHandler, Geometry } from '@painter/gl-canvas'
+import type { Container, EventHandler } from '@gl-painter/gl-canvas'
+import { Canvas, DummyEventHandler, Geometry } from '@gl-painter/gl-canvas'
 // import PickFilter from '@/luban/geom/pick/PickFilter'
 
 export default class PickEventHandler extends DummyEventHandler {

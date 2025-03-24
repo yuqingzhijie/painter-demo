@@ -1,6 +1,6 @@
 import Geometry3d from '@/luban/geom/part/Geometry3d'
-import type { Container, Device } from '@painter/gl-canvas'
-import { Color, Context, PointBuffer, Vertex } from '@painter/gl-canvas'
+import type { Container, Device } from '@gl-painter/gl-canvas'
+import { Color, Context, PointBuffer, Vertex } from '@gl-painter/gl-canvas'
 
 export default class Point extends Geometry3d {
   constructor(container: Container, id: number, vertexes: number[], color: Color) {

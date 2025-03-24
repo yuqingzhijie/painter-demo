@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { setView } from '@/luban/utils'
 import { useCanvasStore } from '@/stores/canvas'
-import { Matrix, Vector, type Canvas } from '@painter/gl-canvas'
+import { Matrix, Vector, type Canvas } from '@gl-painter/gl-canvas'
 
 const canvasStore = useCanvasStore()
 

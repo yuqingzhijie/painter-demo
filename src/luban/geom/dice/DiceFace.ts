@@ -1,8 +1,8 @@
 import type Dice from '@/luban/geom/dice/Dice'
 import Geometry3d from '@/luban/geom/part/Geometry3d'
 import { setView } from '@/luban/utils'
-import type { Device, Matrix } from '@painter/gl-canvas'
-import { Color, Context, FaceBuffer, FaceBufferType, TextureBuffer } from '@painter/gl-canvas'
+import type { Device, Matrix } from '@gl-painter/gl-canvas'
+import { Color, Context, FaceBuffer, FaceBufferType, TextureBuffer } from '@gl-painter/gl-canvas'
 
 export default class DiceFace extends Geometry3d {
   constructor(container: Dice, id: number, vertexes: number[], text: string, matrix: Matrix) {

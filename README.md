@@ -1,18 +1,15 @@
 # painter-demo
 
-This template should help get you started developing with Vue 3 in Vite.
+温习Webgl
 
-## Recommended IDE Setup
+## 视图变化
+1、色子定位
+2、鼠标中键滚动缩放
+3、鼠标中键按住移动平移
+4、鼠标右键按住移动旋转
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+## 渲染模式
+略
 
 ## Project Setup
 
@@ -30,10 +27,4 @@ npm run dev
 
 ```sh
 npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
 ```

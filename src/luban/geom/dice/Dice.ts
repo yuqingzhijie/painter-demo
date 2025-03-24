@@ -1,8 +1,8 @@
 import { DICE_CONFIG } from '@/config/luban/dice'
 import DiceFace from '@/luban/geom/dice/DiceFace'
 import Point from '@/luban/geom/part/Point'
-import type { Container, Device, Geometry, Matrix } from '@painter/gl-canvas'
-import { Context, Vertex } from '@painter/gl-canvas'
+import type { Container, Device, Geometry, Matrix } from '@gl-painter/gl-canvas'
+import { Context, Vertex } from '@gl-painter/gl-canvas'
 
 // 最简单dice
 export default class Dice implements Container {

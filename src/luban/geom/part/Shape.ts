@@ -2,8 +2,8 @@ import Edge from '@/luban/geom/part/Edge'
 import Face from '@/luban/geom/part/Face'
 import Geometry3d from '@/luban/geom/part/Geometry3d'
 import Point from '@/luban/geom/part/Point'
-import type { Container, Device } from '@painter/gl-canvas'
-import { Context, Vertex } from '@painter/gl-canvas'
+import type { Container, Device } from '@gl-painter/gl-canvas'
+import { Context, Vertex } from '@gl-painter/gl-canvas'
 
 export default class Shape extends Geometry3d {
   constructor(container: Container, id: number) {

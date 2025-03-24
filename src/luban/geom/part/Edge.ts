@@ -1,7 +1,7 @@
 import Face from '@/luban/geom/part/Face'
 import Geometry3d, { type DrawOptions } from '@/luban/geom/part/Geometry3d'
 import Shape from '@/luban/geom/part/Shape'
-import type { Container, Device } from '@painter/gl-canvas'
+import type { Container, Device } from '@gl-painter/gl-canvas'
 import {
   Color,
   Context,
@@ -9,7 +9,7 @@ import {
   LineBuffer,
   LineBufferType,
   Vector,
-} from '@painter/gl-canvas'
+} from '@gl-painter/gl-canvas'
 
 // [totalLength  dashLength] pixels
 const defaultDashOption = [20, 5]
